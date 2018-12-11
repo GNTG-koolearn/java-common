@@ -1,17 +1,31 @@
 package com.koolearn.guonei;
 
-import com.koolearn.guonei.model.SendTemplateMessageReqVo;
+import com.koolearn.guonei.model.wxpublic.WXUserInfo;
+import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static org.junit.Assert.*;
+import java.util.List;
 
 public class PublicClientTest {
 
 
+    @Test
+    public void testbatchGetUserInfoByOpenId() {
+        PublicClient publicClient = PublicClient.getInstance("wx0c39f8422f4ed258","e9a465703d9fa95480456873aa83d31e");
+        String accessToken = publicClient.getBaseAccessToken();
+        List<String> openIdList = publicClient.batchGetOpenId(accessToken, null);
+        List<String> subOpenIdList = openIdList.subList(0, 100);
+        List<WXUserInfo> wxUserInfos = publicClient.batchGetUserInfoByOpenId(accessToken, subOpenIdList);
+        Assert.assertTrue(wxUserInfos.size()==100);
+        System.out.println(wxUserInfos);
+    }
+    @Test
+    public void testBatchGetOpenId() {
+        PublicClient publicClient = PublicClient.getInstance("wx0c39f8422f4ed258","e9a465703d9fa95480456873aa83d31e");
+        String accessToken = publicClient.getBaseAccessToken();
+        List<String> openIdList = publicClient.batchGetOpenId(accessToken, null);
+        Assert.assertTrue(openIdList.size()==10000);
+    }
     @Test
     public void getBaseAccessToken(){
        /* PublicClient publicClient = PublicClient.getInstance("wx889bd3d67c925271","180c20aef125cb52244d0fcbea34bb9f");
