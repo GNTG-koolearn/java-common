@@ -13,6 +13,7 @@
     </properties>
     <modules>
         <module>guonei-wechat-sdk</module>
+        <module>guonei-text-analyzer</module>
     </modules>
 
 </project>
