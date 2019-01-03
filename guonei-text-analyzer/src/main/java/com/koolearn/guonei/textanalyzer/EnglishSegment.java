@@ -4,13 +4,14 @@ package com.koolearn.guonei.textanalyzer;
 import com.alibaba.fastjson.JSON;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -99,18 +100,12 @@ public class EnglishSegment extends Segment{
     }
 
     public static void main(String args[]){
-        String content="Financial regulations in Britain have imposed a rather unusual rule on the bosses of big banks. Starting next year, any guaranteed bonus of top executives could be delayed 10 years if their banks are under investigation for wrongdoing. The main purpose of this “clawback” rule is to hold bankers accountable for harmful risk-taking and to restore public trust in financial institution. Yet officials also hope for a much larger benefit: more long term decision-making not only by banks but also by all corporations, to build a stronger economy for future generations.\n" +
-                "“Short-termism” or the desire for quick profits, has worsened in publicly traded companies, says the Bank of England’s top economist. Andrew Haldane. He quotes a giant of classical economies, Alfred Marshall, in describing this financial impatience as acting like “Children who pick the plums out of their pudding to eat them at once” rather than putting them aside to be eaten last.\n" +
-                "The average time for holding a stock in both the United States and Britain, he notes, has dropped from seven years to seven months in recent decades. Transient investors, who demand high quarterly profits from companies, can hinder a firm’s efforts to invest in long-term research or to build up customer loyalty. This has been dubbed “quarterly capitalism”.\n" +
-                "In addition, new digital technologies have allowed more rapid trading of equities, quicker use of information, and thus shortens attention spans in financial markers. “There seems to be a predominance of short-term thinking at the expense of long-term investing,” said Commissioner Daniel Gallagher of the US Securities and Exchange Commission in speech this week.\n" +
-                "In the US, the Sarbanes-Oxley Act of 2002 has pushed most public companies to defer performance bonuses for senior executives by about a year, slightly helping reduce “short-termism.” In its latest survey of CEO pay, The Wall Street Journal finds that “ a substantial part” of executive pay is now tied to performance.\n" +
-                "Much more could be done to encourage “long-termism,” such as changes in the tax code and quicker disclosure of stock acquisitions. In France, shareholders who hold onto a company investment for at least two years can sometimes earn more voting rights in a company.\n" +
-                "Within companies, the right compensation design can provide incentives for executives to think beyond their own time at the company and on behalf of all stakeholders. Britain’s new rule is a reminder to bankers that society has an interest in their performance, not just for the short term but for the long term.\n";
+        String content="declared";
         Set<String> keywords = new HashSet<String>();
         keywords.add("intellig");
         keywords.add("robot");
-        //String lemmasPath = EnglishSegment.class.getClassLoader().getResource("lemmas.txt").getPath();
-        EnglishSegment es=new EnglishSegment();
+        String lemmasPath = EnglishSegment.class.getClassLoader().getResource("lemmas.txt").getPath();
+        EnglishSegment es=new EnglishSegment(lemmasPath);
         String result=es.segment(content);
         Map map = es.getTF(result);
         System.out.println(JSON.toJSONString(map));

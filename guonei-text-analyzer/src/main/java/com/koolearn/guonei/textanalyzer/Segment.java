@@ -13,7 +13,7 @@ import java.util.*;
 public abstract class Segment {
     protected Set<String> keywrods;//匹配词
     protected boolean isMatchKeyword;//是否进行匹配
-    protected Map<String,String> map = new HashMap();
+    protected static Map<String,String> map = new HashMap();
 
     /**
      * 构造函数，初始化各个属性
@@ -33,12 +33,14 @@ public abstract class Segment {
     }
 
     private void init(String lemmasPath) {
-        List<String> lemmasList = FileUtil.readTxtFile(lemmasPath);
-        for (String lemmas : lemmasList) {
-            String[] arr = lemmas.split("\t");
-            map.put(arr[0], null);
-            if (arr.length > 1) {
-                map.put(arr[0], arr[1]);
+        if(map.size() == 0){
+            List<String> lemmasList = FileUtil.readTxtFile(lemmasPath);
+            for (String lemmas : lemmasList) {
+                String[] arr = lemmas.split("\t");
+                map.put(arr[0], null);
+                if (arr.length > 1) {
+                    map.put(arr[0], arr[1]);
+                }
             }
         }
     }
