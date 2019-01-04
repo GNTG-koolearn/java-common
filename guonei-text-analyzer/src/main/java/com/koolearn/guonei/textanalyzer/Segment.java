@@ -2,6 +2,7 @@ package com.koolearn.guonei.textanalyzer;
 
 import util.FileUtil;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -11,30 +12,35 @@ import java.util.*;
  * @date 2018/12/27
  */
 public abstract class Segment {
-    protected Set<String> keywrods;//匹配词
+    protected Set<String> keywords;//匹配词
     protected boolean isMatchKeyword;//是否进行匹配
     protected static Map<String,String> map = new HashMap();
+
 
     /**
      * 构造函数，初始化各个属性
      */
     public Segment(){
+        try {
+            init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         isMatchKeyword = false;
-        keywrods=new HashSet<String>();
+        keywords=new HashSet<String>();
     }
 
-    /**
-     * 构造函数，初始化各个属性
-     */
-    public Segment(String lemmasPath){
-        init(lemmasPath);
-        isMatchKeyword = false;
-        keywrods=new HashSet<String>();
-    }
-
-    private void init(String lemmasPath) {
+    private void init() throws IOException {
         if(map.size() == 0){
-            List<String> lemmasList = FileUtil.readTxtFile(lemmasPath);
+            List<String> lemmasList = new ArrayList<String>();
+            InputStream is = this .getClass().getResourceAsStream( "/lemmas.txt" ); // 可以正常使用
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String lineTxt;
+            while((lineTxt = br.readLine()) != null){
+                lemmasList.add(lineTxt);
+            }
+            br.close();
+            is.close();
             for (String lemmas : lemmasList) {
                 String[] arr = lemmas.split("\t");
                 map.put(arr[0], null);
@@ -47,13 +53,16 @@ public abstract class Segment {
 
     /**
      * 构造函数，初始化各个属性，初始化匹配词集
-     * @param lemmasPath
-     * @param keywrods 匹配词集
+     * @param keywords 匹配词集
      */
-    public Segment(String lemmasPath, Set keywrods){
-        init(lemmasPath);
+    public Segment(Set keywords){
+        try {
+            init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         isMatchKeyword = true;
-        this.keywrods = keywrods;
+        this.keywords = keywords;
     }
 
     /**
@@ -67,14 +76,14 @@ public abstract class Segment {
      * @return the keywrods
      */
     public Set<String> getKeywrods() {
-        return keywrods;
+        return keywords;
     }
 
     /**
      * @param keywrods the keywrods to set
      */
     public void setKeywords(Set<String> keywrods) {
-        this.keywrods = keywrods;
+        this.keywords = keywrods;
     }
 
     /**

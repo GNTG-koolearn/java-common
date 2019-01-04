@@ -27,16 +27,12 @@ public class EnglishSegment extends Segment{
 
 
     public EnglishSegment(){
+        super();
         analyzer=new StandardAnalyzer();//默认标准分词器
     }
 
-    public EnglishSegment(String lemmasPath){
-        super(lemmasPath);
-        analyzer=new StandardAnalyzer();//默认标准分词器
-    }
-
-    public EnglishSegment(String lemmasPath, Set<String> keywrodSet){
-        super(lemmasPath, keywrodSet);//设置关键集
+    public EnglishSegment(Set<String> keywrodSet){
+        super(keywrodSet);//设置关键集
         analyzer=new StandardAnalyzer();//默认标准分词器
     }
 
@@ -61,7 +57,7 @@ public class EnglishSegment extends Segment{
                 word = restoreMorphology(word);
                 if(word.length() > 0){
                     if(isMatchKeyword){
-                        if(keywrods.contains(word)){
+                        if(keywords.contains(word)){
                             sb.append(word+ " ");
                         }
                     }else{
@@ -100,12 +96,12 @@ public class EnglishSegment extends Segment{
     }
 
     public static void main(String args[]){
-        String content="declared";
+        String content="catalogue";
         Set<String> keywords = new HashSet<String>();
         keywords.add("intellig");
         keywords.add("robot");
-        String lemmasPath = EnglishSegment.class.getClassLoader().getResource("lemmas.txt").getPath();
-        EnglishSegment es=new EnglishSegment(lemmasPath);
+        //String lemmasPath = EnglishSegment.class.getClassLoader().getResource("lemmas.txt").getPath();
+        EnglishSegment es=new EnglishSegment();
         String result=es.segment(content);
         Map map = es.getTF(result);
         System.out.println(JSON.toJSONString(map));
