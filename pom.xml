@@ -14,6 +14,7 @@
     <modules>
         <module>guonei-wechat-sdk</module>
         <module>guonei-text-analyzer</module>
+        <module>guonei-common</module>
     </modules>
 
 </project>
