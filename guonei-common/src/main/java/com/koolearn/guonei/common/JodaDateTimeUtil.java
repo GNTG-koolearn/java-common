@@ -63,10 +63,4 @@ public class JodaDateTimeUtil {
 
         return thisWeekList;
     }
-
-    public static void main(String[] args) {
-        List<Date> thisWeekMonDayAndSunDay = getThisWeekMonDayAndSunDay();
-
-        System.out.println(thisWeekMonDayAndSunDay);
-    }
 }
